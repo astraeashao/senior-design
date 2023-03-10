@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+	<script src="static/js/vue.min.js"></script>
+	<script src="static/js/element.js"></script>
+	<script src="static/js/axios.min.js"></script>
+	<link rel="stylesheet" href="static/css/element.css" type="text/css">
+</head>
+<body>
+    <div id="app">
+        <div id = "title" style="color: black;">Enable/Disable Snoring Audio Classifier</div>
+        <div>
+            <el-switch
+                style="display: block"
+                v-model="tfstate"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                active-text="Enable"
+                inactive-text="Disable"
+                @change="changeStatus">
+            </el-switch>
+        </div>
+        <el-divider></el-divider>
+        <div id="nowstate" style="color: red;">
+            Now Classifier Result is: 0
+        </div>
+        <div id="laststate" style="color: blue;">
+            Last Classifier Result is: 0
+        </div>
+		<div id="sensorstate" style="color: green;">
+		    Sensor State is: 0
+		</div>
+        <el-divider></el-divider>
+        <el-row :gutter="24">
+            <el-col :span="8">
+                <el-input 
+                    v-model="threshold" 
+                    placeholder="Please Input Threshold" 
+                    style="width: 180px">
+                </el-input>
+            </el-col>
+            <el-col :span="8">
+                <el-button type="success" @click="setThreshold">setThreshold</el-button>
+            </el-col>
+        </el-row>
+    </div>
+<script>
+    let vm = new Vue({
+      el: '#app',
+      data: function() {
+        return {
+            tfstate: false,
+            nowstate:0,
+            laststate:0,
+			sensorstate:0,
+			threshold: '',
+			timer: "",
+        }
+      },
+      methods:{
+        changeStatus (status) {
+			var t = this
+			if (status == true){
+				t.tfstate = true
+				t.timer = setInterval(this.getState, 2000);
+			} else {
+				t.tfstate = false
+				clearInterval(t.timer);
+			}
+			var url = "http://192.168.99.61:5000/tfstate";
+			var paramsdata = {tfstate:t.tfstate};
+			axios({
+			    url:url,
+			    method:'POST',
+			    data:paramsdata
+			}).then(function (res) {
+			    console.log(res.data);
+			});
+		},
+		setThreshold(){
+			var t = this
+			var url = "http://192.168.99.61:5000/threshold";
+			var paramsdata = {threshold:t.threshold};
+			axios({
+			    url:url,
+			    method:'POST',
+			    data:paramsdata
+			}).then(function (res) {
+			    console.log(res.data);
+			});
+		},
+		getState(){
+			var t = this
+			var url = "http://192.168.99.61:5000/state";
+			axios({
+			    url:url,
+			    method:'GET',
+			}).then(function (res) {
+			    console.log(res.data);
+
+				if(res.data.state == "OK"){
+					this.nowstate = res.data.nowstate
+					this.laststate = res.data.laststate
+					this.sensorstate = res.data.sensorstate
+now_id = document.getElementById('nowstate');
+last_id = document.getElementById('laststate');
+sensor_id = document.getElementById('sensorstate');
+now_id.innerHTML = "Now Classifier Result is: " + String(this.nowstate);
+last_id.innerHTML = "Last Classifier Result is: " + String(this.laststate);
+sensor_id.innerHTML = "Sensor State is: " + String(this.sensorstate);
+
+				}
+			});
+		},
+      }
+    })
+</script>
+</body>
+</html>

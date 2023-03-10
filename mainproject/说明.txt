@@ -1,0 +1,7 @@
+V5的录音是非阻塞式，缺点是很难把控录音秒数
+因为我们开辟了线程，理论上不需要非阻塞式，因此V6版本的录音是阻塞式，精准录制1秒长度的音频
+上述两个文件在调试过程最末尾的app.run(host='0.0.0.0',port=5000,debug=False,threaded=True)是这样
+在加入开机自启前，需要加上#，即#app.run(host='0.0.0.0',port=5000,debug=False,threaded=True)
+run.py里面的V5/V6根据实际效果进行改变
+
+要外网访问记得修改templates里面html文件的localhost为树莓派的IP地址
