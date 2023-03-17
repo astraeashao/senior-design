@@ -14,8 +14,8 @@ while True:
         y = np.concatenate([y, zero_padding], axis=0)
     else:
         y = y[0:sr]
-    melspectrogram = librosa.feature.melspectrogram(y=y, sr=sr) # 梅尔频谱
-    mfcc = librosa.feature.mfcc(y=y, sr=sr) # 梅尔倒谱
+    melspectrogram = librosa.feature.melspectrogram(y=y, sr=sr) 
+    mfcc = librosa.feature.mfcc(y=y, sr=sr) 
     
     x = np.expand_dims(np.concatenate([melspectrogram, mfcc], axis=0), axis=0)
     print(x.shape)
