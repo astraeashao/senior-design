@@ -21,8 +21,8 @@ while True:
         y = np.concatenate([y, zero_padding], axis=0)
     else:
         y = y[0:sr]
-    melspectrogram = librosa.feature.melspectrogram(y=y, sr=sr) # 梅尔频谱
-    mfcc = librosa.feature.mfcc(y=y, sr=sr) # 梅尔倒谱
+    melspectrogram = librosa.feature.melspectrogram(y=y, sr=sr) # Melspect
+    mfcc = librosa.feature.mfcc(y=y, sr=sr) # MFCC features
     x_tflite = np.expand_dims(np.concatenate([melspectrogram, mfcc], axis=0), axis=0)#(1,148,44)->(1,148,44,1)
     x_tflite = np.expand_dims(x_tflite, axis=-1)
     tflite_model.set_tensor(tflite_input_details[0]['index'], x_tflite)  
