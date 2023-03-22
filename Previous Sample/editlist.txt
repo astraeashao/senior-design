@@ -1,0 +1,17 @@
+pi_sensor - fixed loading in bug caused by folder index, now manual indexing each folder with numer
+	    included sensor function
+pi_sensor_beep - added alarm function
+pi_sensor_beep_sche - added timer for the alarm function, now last 1 sec, 
+			fixed issue of updating value even not enabled
+V1 - added motor control , fixed issue of user other than local host not able to view website
+V2 - added send email function, fixed issue of motor turning despite not enabled
+				fixed issue of /back not turning the motor back, but add same steps forward
+V3 - added start up function so that the program will run once rasp pi is booted, no need to self run .py
+				fixed issue of not recording snoring count to csv when a csv doesnt already exist
+V5 - adjusted motor run function to fit actual steps need in raising the actual mechanical structure
+V6 - tried changing the recording method to be exact every 1 second and no cuttting in between,
+     failed, kept V5 structure
+
+V8 - adjusted threading structure to fix delaying problem of motor running, now motor will be faster when sensor
+     is pressed;
+   - changed the file path to include only snoring and other noise
