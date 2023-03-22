@@ -1,0 +1,5 @@
+To run tests, run the modeltestV1.py
+This program will record 4 minutes of sound through microphone and analyze which method is best
+User need to pre label the label.csv for the type of prediction,
+ex: If user is testing on recognition of snoring, then label.csv need to all change to snoring to display the correct accuracy
+else, it would be opposite 
